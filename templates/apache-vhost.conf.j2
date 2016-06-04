@@ -1,28 +1,28 @@
 <VirtualHost *:{{wp_apache_listen_port}}>
-	ServerAdmin {{wp_apache_admin_email}}
 	ServerName {{wp_apache_hostname}}
 	ServerAlias {{wp_apache_alias}}
 
 	DocumentRoot "{{wp_install_dir}}"
 
 	<Directory "{{wp_install_dir}}">
-		Options FollowSymLinks MultiViews Includes ExecCGI
+		Options FollowSymLinks
 		AllowOverride none
+		{% if apache_vhosts_version == "2.2" %}
 		Order allow,deny
 		allow from all
+		{% else %}
 		Require all granted
+		{% endif %}
 		RewriteEngine On
 		RewriteBase /
-		RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-		RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 		RewriteRule ^index\.php$ - [L]
 		RewriteCond %{REQUEST_FILENAME} !-f
 		RewriteCond %{REQUEST_FILENAME} !-d
 		RewriteRule . /index.php [L]
 	</Directory>
 
-	ErrorLog /var/log/apache2/{{wp_apache_hostname}}-error.log
+	ErrorLog logs/{{wp_apache_hostname}}-error.log
 	LogLevel warn
-	CustomLog /var/log/apache2/{{wp_apache_hostname}}-access.log combined
+	CustomLog logs/{{wp_apache_hostname}}-access.log combined
 
 </VirtualHost>

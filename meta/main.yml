@@ -5,7 +5,7 @@ dependencies:
 ##  - { role: geerlingguy.mysql }
 ##  - { role: geerlingguy.php-mysql }
 ##  - { role: geerlingguy.php }
-  - { role: darthwade.wordpress }
+#  - { role: alanlok.wordpress }
 
 galaxy_info:
   author: darthwade

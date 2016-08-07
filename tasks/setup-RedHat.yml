@@ -3,3 +3,6 @@
 - name: WordPress | Apache | Copy virtual host configuration file
   template: src=apache-vhost.conf.j2 dest=/etc/httpd/conf.d/{{wp_apache_hostname}}.conf owner=root group=root mode=0644
   notify: restart apache
+
+- name: WordPress | SELinux | Set selinux contact
+  file: path=/var/www/html state=directory setype=httpd_sys_content_t recurse=yes
